@@ -1,0 +1,25 @@
+{
+  "name": "secrets_config",
+  "version": "1.0.0",
+  "description": "configuration of secrets devops",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hilma-tech/secrets_config.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hilma-tech/secrets_config/issues"
+  },
+  "homepage": "https://github.com/hilma-tech/secrets_config#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1187.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.3"
+  }
+}
