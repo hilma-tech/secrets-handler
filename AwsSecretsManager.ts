@@ -7,23 +7,24 @@ class AwsSecretsManager {
     }
 
     async getSecValue(secretId: string) {
-        let value, buffer, decodedBinarySecret;
-        this.awsSecretsManager.getSecretValue({
-            SecretId: secretId, function(err, data) {
-                if (err) {
-                    console.error('err: ', err);
-                    throw new Error(err)
-                } else {
-                    if ('secretString' in data) {
-                        value = data.SecretString;
-                    } else {
-                        buffer = Buffer.from(data.SecretBinary, 'base64')
-                        decodedBinarySecret = buffer.toString('ascii')
-                        value = decodedBinarySecret
-                    }
-                }
+        console.log('secretId: ', secretId);
+        let value: any, buffer, decodedBinarySecret;
+        try {
+            const data = await this.awsSecretsManager.getSecretValue({ SecretId: "super/secretname" }).promise();
+            if ('secretString' in data) {
+                console.log('data.SecretString: ', data.SecretString);
+                value = data.SecretString;
+            } else {
+                buffer = Buffer.from(data.SecretBinary, 'base64')
+                decodedBinarySecret = buffer.toString('ascii')
+                console.log('decodedBinarySecret: ', decodedBinarySecret);
+                value = decodedBinarySecret
             }
-        })
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+
         return value;
     }
 
