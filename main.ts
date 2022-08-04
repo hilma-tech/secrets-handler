@@ -1,16 +1,28 @@
+import getAwsSecret from "./getAwsSecret";
 import getConnectorSecret from "./getConnectorSecret";
-import { secretObjT } from "./types/typeOfSecretObj.type";
+import getUnknownSecretObj from "./getUnknownSecret";
+import { connectorSecretObjT, unknownSecretObj } from "./types/typeOfSecretObj.type";
 
-async function genericSecrets(useAws: boolean, secrets: secretObjT[]) {
-    const s: any = {};
-    for (let i = 0; i < secrets.length; i++) {
-        const a = secrets[i];
-        if (a.isConnector) {
-            s[a.name] = await getConnectorSecret(useAws, a)
+
+async function genericSecrets(secretsObjects: connectorSecretObjT[] | unknownSecretObj[]) {
+
+    const secretsArr: any = {};
+    for (let i = 0; i < secretsObjects.length; i++) {
+        if (process.env.USE_AWS === 'true') {
+            console.log('Boolean(process.env.USE_AWS): ', Boolean(process.env.USE_AWS));
+            return await getAwsSecret(`${secretsObjects[i].type}_SECRET_NAME`)
+        } else {
+            const a: any = secretsObjects[i];
+            if (a.isConnector) {
+                secretsArr[a.name] = await getConnectorSecret(a)
+            } else {
+                //@ts-ignore
+                secretsArr[a.name] = await getUnknownSecretObj(a)
+            }
         }
     }
-    
-    console.log('s: ', s);
+    console.log('s: ', secretsArr);
 }
 
-genericSecrets(Boolean(process.env.USE_AWS), [{name: "mysqldbinfo", type: "DB", isConnector: true}])
+//@ts-ignore
+genericSecrets([{ name: "mysqldbinfo", type: "DB", isConnector: true }, { isConnector: false, type: "CAT", envNameArr: ["CAT_DB", "CAT_NUMBER"], name: "cattyoe" }])

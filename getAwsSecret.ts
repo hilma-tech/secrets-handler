@@ -1,7 +1,8 @@
 import AwsSecretsManager from "./AwsSecretsManager"
 import { connector } from "./types/typeOfConnector"
 
-const getAwsConnectorSecret = async (secretName: string) => {
+const getAwsSecret = async (secretName: string) => {
+    console.log('secretName: ', secretName);
     const secretManager
         = new AwsSecretsManager({
             region: 'eu-west-2'
@@ -12,4 +13,4 @@ const getAwsConnectorSecret = async (secretName: string) => {
     return (secretValue)
 }
 
-export default getAwsConnectorSecret;
+export default getAwsSecret;

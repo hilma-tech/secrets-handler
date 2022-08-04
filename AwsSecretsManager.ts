@@ -21,6 +21,7 @@ class AwsSecretsManager {
                 value = decodedBinarySecret
             }
         } catch (error) {
+            console.log("jnjnj")
             console.error(error);
             throw error;
         }
