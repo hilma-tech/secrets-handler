@@ -11,7 +11,8 @@ class AwsSecretsManager {
         let value: any, buffer, decodedBinarySecret;
         try {
             const data = await this.awsSecretsManager.getSecretValue({ SecretId: "super/secretname" }).promise();
-            if ('secretString' in data) {
+            console.log('data: ', data);
+            if ('SecretString' in data) {
                 console.log('data.SecretString: ', data.SecretString);
                 value = data.SecretString;
             } else {

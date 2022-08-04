@@ -1,4 +1,3 @@
-import getAwsConnectorSecret from "./getAwsSecret";
 import { connectorSecretObjT } from "./types/typeOfSecretObj.type";
 
 const getConnectorSecret = async (secretObj: connectorSecretObjT) => {

@@ -10,7 +10,7 @@ const getAwsSecret = async (secretName: string) => {
     const secretValue: connector = await secretManager.getSecValue(secretName)
     console.log('secretValue: ', secretValue);
 
-    return (secretValue)
+    return secretValue;
 }
 
 export default getAwsSecret;

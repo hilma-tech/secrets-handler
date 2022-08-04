@@ -10,7 +10,7 @@ async function genericSecrets(secretsObjects: connectorSecretObjT[] | unknownSec
     for (let i = 0; i < secretsObjects.length; i++) {
         if (process.env.USE_AWS === 'true') {
             console.log('Boolean(process.env.USE_AWS): ', Boolean(process.env.USE_AWS));
-            return await getAwsSecret(`${secretsObjects[i].type}_SECRET_NAME`)
+            secretsArr[secretsObjects[i].name] = await getAwsSecret(`${secretsObjects[i].type}_SECRET_NAME`)
         } else {
             const a: any = secretsObjects[i];
             if (a.isConnector) {
