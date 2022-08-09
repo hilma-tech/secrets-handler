@@ -1,28 +1,25 @@
 const aws = require('aws-sdk')
 
 class AwsSecretsManager {
-    awsSecretsManager: any;
-    constructor(SecretsManagerOptions: any) {
+    awsSecretsManager;
+    constructor(SecretsManagerOptions) {
         this.awsSecretsManager = new aws.SecretsManager(SecretsManagerOptions)
     }
 
-    async getSecValue(secretId: string) {
-        console.log('secretId: ', secretId);
-        let value: any, buffer, decodedBinarySecret;
+    async getSecValue(secretId) {
+        let value, buffer, decodedBinarySecret;
         try {
             const data = await this.awsSecretsManager.getSecretValue({ SecretId: "super/secretname" }).promise();
-            console.log('data: ', data);
             if ('SecretString' in data) {
-                console.log('data.SecretString: ', data.SecretString);
-                value = data.SecretString;
+                const str = data.SecretString;
+                value = JSON.parse(str);
             } else {
                 buffer = Buffer.from(data.SecretBinary, 'base64')
                 decodedBinarySecret = buffer.toString('ascii')
-                console.log('decodedBinarySecret: ', decodedBinarySecret);
-                value = decodedBinarySecret
+                const str = decodedBinarySecret
+                value = JSON.parse(str);
             }
         } catch (error) {
-            console.log("jnjnj")
             console.error(error);
             throw error;
         }
@@ -34,4 +31,4 @@ class AwsSecretsManager {
 }
 
 
-export default AwsSecretsManager
+module.exports = AwsSecretsManager
