@@ -9,7 +9,7 @@ class AwsSecretsManager {
     async getSecValue(secretId) {
         let value, buffer, decodedBinarySecret;
         try {
-            const data = await this.awsSecretsManager.getSecretValue({ SecretId: "super/secretname" }).promise();
+            const data = await this.awsSecretsManager.getSecretValue({ SecretId: secretId }).promise();
             if ('SecretString' in data) {
                 const str = data.SecretString;
                 value = JSON.parse(str);

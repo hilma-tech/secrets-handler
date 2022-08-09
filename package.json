@@ -1,6 +1,6 @@
 {
   "name": "secrets_config",
-  "version": "1.0.0-beta0.4",
+  "version": "1.0.0-beta0.8",
   "description": "configuration of secrets devops",
   "main": "main.js",
   "scripts": {

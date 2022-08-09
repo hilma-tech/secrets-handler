@@ -15,7 +15,7 @@ async function genericSecrets(secretsObjects) {
 
     for (let i = 0; i < secretsObjects.length; i++) {
         if (process.env.USE_AWS === 'true') {
-            secretsArr[secretsObjects[i].name] = await getAwsSecret(`${secretsObjects[i].type}_SECRET_NAME`)
+            secretsArr[secretsObjects[i].name] = await getAwsSecret(process.env[`${secretsObjects[i].type}_SECRET_NAME`])
         } else {
             const a = secretsObjects[i];
 
