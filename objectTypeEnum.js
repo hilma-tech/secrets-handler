@@ -1,7 +1,7 @@
 const objectTypeEnum = {
-    connector : "connector",
-    unknown: "unknown",
-    preknownValue: "preknownValue"
+    connector : "connector", // object has keys: user, port, engine, host, secretname, password
+    unknown: "unknown", // object has key that are not in the connector type
+    preknownValue: "preknownValue" // object has known value 
 }
 
 module.exports = objectTypeEnum

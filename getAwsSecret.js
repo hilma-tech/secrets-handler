@@ -1,5 +1,9 @@
 const AwsSecretsManager = require("./AwsSecretsManager")
 
+/**
+ * @param {*} secretName secretId(aws)
+ * @returns secret value from aws
+ */
 const getAwsSecret = async (secretName) => {
     try {
         const secretManager

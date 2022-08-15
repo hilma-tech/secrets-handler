@@ -6,6 +6,8 @@ class AwsSecretsManager {
         this.awsSecretsManager = new aws.SecretsManager(SecretsManagerOptions)
     }
 
+    
+    // retrive secret from aws by secretId
     async getSecValue(secretId) {
         let value, buffer, decodedBinarySecret;
         try {

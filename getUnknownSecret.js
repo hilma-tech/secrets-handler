@@ -1,13 +1,17 @@
 
+/**
+ * @param {*} secretObj from type unknown secret
+ * @returns secret data from env
+ */
 const getUnknownSecretObj = async (secretObj) => {
 
-    const a = {}
+    const unknownSecret = {}
 
     for (let i = 0; i < secretObj.envNameArr.length; i++) {
-        a[secretObj.envNameArr[i]] = process.env[secretObj.envNameArr[i]]
+        unknownSecret[secretObj.envNameArr[i]] = process.env[secretObj.envNameArr[i]]
     }
 
-    return a;
+    return unknownSecret;
 
 }
 
