@@ -12,7 +12,7 @@ const getType = (secretObject, filename) => {
     const fout = fs.createWriteStream(filename, 'utf-8');
     fout.write(`
     type DatabaseType = "mysql" | "postgres" | "cockroachdb" | "sap" | "mariadb" | "sqlite" | "cordova" | "react-native" | "nativescript" | "sqljs" | "oracle" | "mssql" | "mongodb" | "aurora-data-api" | "aurora-data-api-pg" | "expo" | "better-sqlite3" | "capacitor";
-    export type typeF = [`)
+    declare module "secrets_config" { const secretFunc:(secretArr: secretConfigObjectsArray) => [`)
     for (let i = 0; i < secretObject.length; i++) {
         switch (secretObject[i].objType) {
             case "connector":
@@ -40,7 +40,9 @@ const getType = (secretObject, filename) => {
             fout.write(',')
     }
 
-    fout.write(']')
+    fout.write(`]   
+     export {secretFunc}; }
+    `)
     fout.close()
     console.log("done 🎂");
 
@@ -61,4 +63,4 @@ getType([{
     envNameArr: ['ENCRYPTION_KYE', 'NCRYPTION_KEY', 'ENCRYPTION_KEY']
 }], "fileq.type.ts")
 
-module.exports=getType
+module.exports = getType
