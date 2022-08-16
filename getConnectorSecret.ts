@@ -10,6 +10,7 @@ const getConnectorSecret = async (secretObj: connectorSecretConfig): Promise<con
     return {
         username: secretObj.username !== undefined ? secretObj.username : process.env[`${secretObj.type}_USER`],
         password: secretObj.password !== undefined ? secretObj.password : process.env[`${secretObj.type}_PASSWORD`],
+        //@ts-ignore
         engine: secretObj.engine !== undefined ? secretObj.engine : process.env[`${secretObj.type}_ENGINE`],
         host: secretObj.host !== undefined ? secretObj.host : process.env[`${secretObj.type}_HOST`],
         port: secretObj.port !== undefined ? secretObj.port : Number(process.env[`${secretObj.type}_PORT`]),

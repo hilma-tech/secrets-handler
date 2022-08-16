@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script for creating an env file with connectors
+#Script for adding connectors to an env file
 
 echo "Enter the name of the env file"
 read FILE_NAME
@@ -8,13 +8,6 @@ read FILE_NAME
 echo "Enter names saperated by a space for database configuration
  for example: DB MYSQLDB MONGODB"
 read VAR_STRING
-
-touch $FILE_NAME
-
-echo """
-USE_AWS=
-AWS_REGION=
-""" >>$FILE_NAME
 
 for VAR_NAME in ${VAR_STRING[@]}; do
     echo """

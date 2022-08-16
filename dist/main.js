@@ -16,6 +16,7 @@ const checkIfFunction_1 = __importDefault(require("./checkIfFunction"));
 const getAwsSecret_1 = __importDefault(require("./getAwsSecret"));
 const getConnectorSecret_1 = __importDefault(require("./getConnectorSecret"));
 const getUnknownSecret_1 = __importDefault(require("./getUnknownSecret"));
+const getTypeOfSecretsArray_1 = __importDefault(require("./scripts/getTypeOfSecretsArray"));
 const secretConfigTypesEnum_type_1 = __importDefault(require("./types/secretConfigTypesEnum.type"));
 /**
  * @param {*} secretsObjects an array containing secret objects from type connector/preknown/unknown
@@ -74,6 +75,7 @@ const secretsObjs = [
 ];
 const a = () => __awaiter(void 0, void 0, void 0, function* () {
     const secrets = yield genericSecrets(secretsObjs);
+    (0, getTypeOfSecretsArray_1.default)(secretsObjs, "fType.type.ts");
     console.log('secrets: ', secrets);
 });
 a();

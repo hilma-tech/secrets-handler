@@ -1,11 +1,12 @@
-import secretConfigTypes from "./secretConfigTypesEnum.type";
+import { DatabaseType } from "../types/database.type";
+import secretConfigTypes from "../types/secretConfigTypesEnum.type";
 
 type connectorSecretConfig = {
     objType: secretConfigTypes.connectorSecretConfig;
     name: string;
     type: string;
     port?: number;
-    engine?: string;
+    engine?: DatabaseType;
     dbname?: string;
     username?: string;
     host?: string;

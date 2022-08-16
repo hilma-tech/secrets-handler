@@ -11,7 +11,7 @@ import secretConfigTypes from "./types/secretConfigTypesEnum.type";
  * @param {*} secretsObjects an array containing secret objects from type connector/preknown/unknown
  * @returns array containing secrets and their value from the wanted destenation
  */
-async function genericSecrets(secretsObjects: secretConfigObjectsArray) {
+async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
 
     // if secretsObjects is not an array, throw error
     if (!Array.isArray(secretsObjects)) {
@@ -19,7 +19,7 @@ async function genericSecrets(secretsObjects: secretConfigObjectsArray) {
         return;
     }
 
-    const secretsArr: secretsObject = {};
+    const secretsArr: any | secretsObject = {};
 
     // for every secret object in secretsObjects retrives the secret from the wanted source(aws or env file)  and according to the secret type(connector/unknown/preknown)
     for (let i = 0; i < secretsObjects.length; i++) {
@@ -52,28 +52,29 @@ async function genericSecrets(secretsObjects: secretConfigObjectsArray) {
 
 
 
-const secretsObjs: secretConfigObjectsArray = [
-    {
-        objType: secretConfigTypes.connectorSecretConfig,
-        name: 'secret1',
-        type: 'DB'
-    }, {
-        objType: secretConfigTypes.connectorSecretConfig,
-        name: 'secret2',
-        type: 'DB_DW'
-    }, {
-        objType: secretConfigTypes.unknownSecretConfig,
-        name: 'secret3',
-        type: 'UN',
-        envNameArr: ['ENCRYPTION_KYE', 'NCRYPTION_KEY', 'ENCRYPTION_KEY']
-    }
-]
+// const secretsObjs: secretConfigObjectsArray = [
+//     {
+//         objType: secretConfigTypes.connectorSecretConfig,
+//         name: 'secret1',
+//         type: 'DB'
+//     }, {
+//         objType: secretConfigTypes.connectorSecretConfig,
+//         name: 'secret2',
+//         type: 'DB_DW'
+//     }, {
+//         objType: secretConfigTypes.unknownSecretConfig,
+//         name: 'secret3',
+//         type: 'UN',
+//         envNameArr: ['ENCRYPTION_KYE', 'NCRYPTION_KEY', 'ENCRYPTION_KEY']
+//     }
+// ]
 
-const a = async () => {
-    const secrets = await genericSecrets(secretsObjs)
-    console.log('secrets: ', secrets);
-}
-a()
+// const a = async () => {
+//     const secrets: typeF | undefined = await genericSecrets<typeF>(secretsObjs)
+//     getType(secretsObjs, "fType.type.ts")
+//     console.log('secrets: ', secrets);
+// }
+// a()
 
 
 export default genericSecrets

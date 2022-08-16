@@ -1,7 +1,8 @@
+import { DatabaseType } from "./database.type";
 
 interface connectorSecret {
     port?: number;
-    engine?: string;
+    engine?: DatabaseType;
     dbname?: string;
     username?: string;
     host?: string;

@@ -1,4 +1,4 @@
-import secretConfigTypes from "./secretConfigTypesEnum.type";
+import secretConfigTypes from "../types/secretConfigTypesEnum.type";
 
 type unknownSecretConfig = {
     objType: secretConfigTypes.unknownSecretConfig;
