@@ -2,6 +2,7 @@ import checkIfFunction from "./checkIfFunction";
 import getAwsSecret from "./getAwsSecret";
 import getConnectorSecret from "./getConnectorSecret";
 import getUnknownSecretObj from "./getUnknownSecret";
+import getType from "./scripts/getTypeOfSecretsArray";
 import secretsObject from "./types/genericObjTypes";
 import secretConfigObjectsArray from "./types/secretConfigObject";
 import secretConfigTypes from "./types/secretConfigTypesEnum.type";
@@ -13,6 +14,7 @@ import secretConfigTypes from "./types/secretConfigTypesEnum.type";
  */
 async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
 
+    getType(secretsObjects, "secretType.type.d.ts");
     // if secretsObjects is not an array, throw error
     if (!Array.isArray(secretsObjects)) {
         console.error(`secretsObjects must be an array. you passed ${typeof secretsObjects}`);
