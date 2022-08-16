@@ -2,7 +2,7 @@ const getAwsSecret = require("./getAwsSecret");
 const checkIfFunction = require("./checkIfFunction");
 const getConnectorSecret = require("./getConnectorSecret");
 const getUnknownSecretObj = require("./getUnknownSecret");
-
+const getTypeOfSecrets = require("./getTypeOfSecrets")
 const objectTypeEnum = require("./objectTypeEnum");
 
 /**
@@ -16,6 +16,8 @@ async function genericSecrets(secretsObjects) {
         console.error(`secretsObjects must be an array. you passed ${typeof secretsObjects}`);
         return;
     }
+
+    getTypeOfSecrets(secretsObjects)
 
     const secretsArr = {};
 

@@ -8,7 +8,7 @@ const getAwsSecret = async (secretName) => {
     try {
         const secretManager
             = new AwsSecretsManager({
-                region: 'eu-west-2'
+                region: process.env.AWS_REGION
             })
         const secretValue = await secretManager.getSecValue(secretName)
         return secretValue;
