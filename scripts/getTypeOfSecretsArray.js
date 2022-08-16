@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const connector = `
  {   port: number,
     engine: DatabaseType,
@@ -48,19 +49,5 @@ const getType = (secretObject, filename) => {
 
 }
 
-getType([{
-    objType: "connector",
-    name: 'secret1',
-    type: 'DB'
-}, {
-    objType: "connector",
-    name: 'secret2',
-    type: 'DB_DW'
-}, {
-    objType: "unknown",
-    name: 'secret3',
-    type: 'UN',
-    envNameArr: ['ENCRYPTION_KYE', 'NCRYPTION_KEY', 'ENCRYPTION_KEY']
-}], "fileq.type.ts")
 
 module.exports = getType
