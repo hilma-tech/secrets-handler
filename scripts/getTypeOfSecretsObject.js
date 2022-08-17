@@ -15,11 +15,11 @@ const getType = (secretObject) => {
     const fout = fs.createWriteStream("secrets_config.d.ts", 'utf-8');
     fout.write(`
     import {DatabaseType, secretConfigObjectsArray} from "secrets_config"
-    declare module "secrets_config" { const secretFunc:(secretArr: secretConfigObjectsArray) => [`)
+    declare module "secrets_config" { const secretFunc:(secretArr: secretConfigObjectsArray) => {`)
     for (let i = 0; i < secretObject.length; i++) {
         switch (secretObject[i].objType) {
             case "connector":
-                fout.write(connector)
+                fout.write(`${secretObject[i].name}: ${connector}`)
                 break;
             case "unknown":
                 let unknown = "{";
@@ -43,7 +43,7 @@ const getType = (secretObject) => {
             fout.write(',')
     }
 
-    fout.write(`]   
+    fout.write(`}  
      export {secretFunc}; }
     `)
     fout.close()

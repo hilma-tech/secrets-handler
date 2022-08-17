@@ -2,7 +2,7 @@ import checkIfFunction from "./checkIfFunction";
 import getAwsSecret from "./getAwsSecret";
 import getConnectorSecret from "./getConnectorSecret";
 import getUnknownSecretObj from "./getUnknownSecret";
-import getType from "./scripts/getTypeOfSecretsArray";
+import getType from "./scripts/getTypeOfSecretsObject";
 
 import { DatabaseType } from "./types/database.type"
 import connectorSecretConfig from "./types/connectorSecretConfig.type";
