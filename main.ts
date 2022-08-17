@@ -12,14 +12,15 @@ import secretConfigTypes from "./types/secretConfigTypesEnum.type";
  * @param {*} secretsObjects an array containing secret objects from type connector/preknown/unknown
  * @returns array containing secrets and their value from the wanted destenation
  */
-async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
+async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray, filename: string): Promise<Type | undefined> {
 
-    getType(secretsObjects, "secretType.type.d.ts");
     // if secretsObjects is not an array, throw error
     if (!Array.isArray(secretsObjects)) {
         console.error(`secretsObjects must be an array. you passed ${typeof secretsObjects}`);
         return;
     }
+
+    getType(secretsObjects, filename);
 
     const secretsArr: any | secretsObject = {};
 
