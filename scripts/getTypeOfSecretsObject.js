@@ -1,5 +1,5 @@
-"use strict";
 const fs = require('fs');
+const fsPromises = fs.promises;
 const connector = `
  {   port: number,
     engine: DatabaseType,
@@ -51,19 +51,21 @@ type unknownSecretConfig = {
 const secretConfigObjectsArray = `
 export type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
 `
-
+let stringToAppend = ''
 const getType = (secretObject) => {
     const fout = fs.createWriteStream("secrets_config.d.ts", 'utf-8');
-    fout.write(`
+
+    stringToAppend += `
     ${DatabaseType}
     ${enumSecretConfigType}
     ${configObjects}
     ${secretConfigObjectsArray}
-    declare module "secrets_config" { const genericSecrets:(secretArr: secretConfigObjectsArray) => {`);
+    declare module "secrets_config" { const genericSecrets:(secretArr: secretConfigObjectsArray) => {`
+
     for (let i = 0; i < secretObject.length; i++) {
         switch (secretObject[i].objType) {
             case "connector":
-                fout.write(`${secretObject[i].name}: ${connector}`);
+                stringToAppend += `${secretObject[i].name}: ${connector}`
                 break;
             case "unknown":
                 let unknown = "{";
@@ -73,20 +75,32 @@ const getType = (secretObject) => {
                         unknown += ",\n";
                 }
                 unknown += "}";
-                fout.write(unknown);
+                stringToAppend += unknown
                 break;
             case "preknown":
-                fout.write(`${secretObject[i].name}: any`);
+                stringToAppend += `${secretObject[i].name}: any`
                 break;
             default:
                 console.log('no');
                 break;
         }
         if (i != secretObject.length - 1)
-            fout.write(',');
+            stringToAppend += ','
     }
-    fout.write(`}}`);
-    fout.close();
+    stringToAppend += `}}`;
+
+    try {
+        const data = fs.fsyncSync.readFile('/Users/joe/test.txt', { encoding: 'utf8' });
+        if (data.replace(/ /g, '') == stringToAppend.replace(/ /g, '')) {
+            return;
+        } else {
+            fout.write(stringToAppend);
+            fout.close();
+        }
+    } catch (err) {
+        console.log("read file", err);
+    }
+
     console.log("done 🛸");
 };
 module.exports = getType;
