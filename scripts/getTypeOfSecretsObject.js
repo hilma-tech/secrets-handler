@@ -90,7 +90,7 @@ const getType = (secretObject) => {
     stringToAppend += `}}`;
 
     try {
-        const data = fs.fsyncSync.readFile('/Users/joe/test.txt', { encoding: 'utf8' });
+        const data = fs.readFileSync('/Users/joe/test.txt', { encoding: 'utf8' });
         if (data.replace(/ /g, '') == stringToAppend.replace(/ /g, '')) {
             return;
         } else {
