@@ -1,5 +1,6 @@
 import AwsSecretsManager from "./AwsSecretsManager";
-import secretsObject from "./types/genericObjTypes";
+
+type secretsObject = {[key:string]: any}
 
 /**
  * @param {*} secretName secretId(aws)

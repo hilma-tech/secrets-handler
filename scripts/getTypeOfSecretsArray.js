@@ -14,6 +14,7 @@ const connector = `
 const getType = (secretObject, filename) => {
     const fout = fs.createWriteStream(filename, 'utf-8');
     fout.write(`
+    import {DatabaseType, secretConfigObjectsArray} from "secrets_config"
     declare module "secrets_config" { const secretFunc:(secretArr: secretConfigObjectsArray) => [`)
     for (let i = 0; i < secretObject.length; i++) {
         switch (secretObject[i].objType) {
