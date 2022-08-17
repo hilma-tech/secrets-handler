@@ -28,4 +28,4 @@ ${VAR_NAME}_NAME=
 """ >>$FILE_NAME
 done
 
-echo "done 🎂"
+echo "done 🛸"
