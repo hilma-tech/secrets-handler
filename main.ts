@@ -4,9 +4,6 @@ import getConnectorSecret from "./getConnectorSecret";
 import getUnknownSecretObj from "./getUnknownSecret";
 import getType from "./scripts/getTypeOfSecretsObject";
 
-import { DatabaseType } from "./types/database.type"
-import connectorSecretConfig from "./types/connectorSecretConfig.type";
-import connectorSecret from './types/connectorSecret.type';
 import secretConfigTypes from "./types/secretConfigTypesEnum.type"
 import secretConfigObjectsArray from "./types/secretConfigObject";
 import secretsObject from "./types/secretConfigTypesEnum.type"
@@ -84,4 +81,4 @@ async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): P
 // a()
 
 
-export { genericSecrets, secretConfigObjectsArray, secretConfigTypes, DatabaseType, connectorSecret, connectorSecretConfig };
+export { genericSecrets };
