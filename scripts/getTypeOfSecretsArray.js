@@ -47,7 +47,7 @@ const getType = (secretObject, filename) => {
      export {secretFunc}; }
     `)
     fout.close()
-    console.log("done 🎂");
+    console.log("done 🛸");
 
 }
 
