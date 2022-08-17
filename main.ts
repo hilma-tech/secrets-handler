@@ -79,4 +79,4 @@ async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): P
 // a()
 
 
-export default genericSecrets
+export { genericSecrets };

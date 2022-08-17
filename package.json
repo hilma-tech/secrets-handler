@@ -1,13 +1,13 @@
 {
   "name": "secrets_config",
-  "version": "1.0.0-beta0.8",
+  "version": "1.0.0-beta0.14",
   "description": "configuration of secrets devops",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/main.js",
     "prepare": "npm run build",
-    "prebuild": "rm -rf ./dist",
+    "prebuild": "rm -rf /dist",
     "build": "echo hi"
   },
   "repository": {
