@@ -85,7 +85,7 @@ const getType = (secretObject) => {
         if (i != secretObject.length - 1)
             fout.write(',');
     }
-    fout.write(`}`);
+    fout.write(`}}`);
     fout.close();
     console.log("done 🛸");
 };
