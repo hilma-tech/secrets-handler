@@ -56,7 +56,7 @@ const getType = (secretObject, times) => {
     try {
         if (times) return
         times++;
-        const fout = fs.createWriteStream("secrets_config.d.ts", 'utf-8');
+        const fout = fs.createWriteStream("node_modules/secrets_config/secrets_config.d.ts", 'utf-8');
 
         stringToAppend += `
         ${DatabaseType}
