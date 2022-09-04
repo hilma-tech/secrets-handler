@@ -1,12 +1,13 @@
 import AwsSecretsManager from "./AwsSecretsManager";
 
-type secretsObject = {[key:string]: any}
+type secretsObject = { [key: string]: any }
 
 /**
  * @param {*} secretName secretId(aws)
  * @returns secret value from aws
  */
-const getAwsSecret = async (secretName: string): Promise<secretsObject | undefined>  => {
+
+const getAwsSecret = async (secretName: string): Promise<secretsObject | undefined> => {
     try {
         const secretManager
             = new AwsSecretsManager({
@@ -15,7 +16,7 @@ const getAwsSecret = async (secretName: string): Promise<secretsObject | undefin
 
         const secretValue: secretsObject = await secretManager.getSecValue(secretName)
         return secretValue;
-        
+
     } catch (error) {
         console.error("error in getAwsSecret: ", error);
         return;

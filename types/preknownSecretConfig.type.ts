@@ -1,7 +1,7 @@
 import secretConfigTypes from "./secretConfigTypesEnum.type";
 
 type preknownSecretConfig = {
-    objType: secretConfigTypes.preKnownSecretConfig;
+    objType: "preknown";
     name: string;
     value: object;
     type: string;
