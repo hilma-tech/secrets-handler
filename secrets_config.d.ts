@@ -1,3 +1,4 @@
+
 declare type DatabaseType = "mysql" | "postgres" | "cockroachdb" | "sap" | "mariadb" | "sqlite" | "cordova" | "react-native" | "nativescript" | "sqljs" | "oracle" | "mssql" | "mongodb" | "aurora-data-api" | "aurora-data-api-pg" | "expo" | "better-sqlite3" | "capacitor";
 
 type execObj = {
@@ -35,6 +36,12 @@ type unknownSecretConfig = {
 type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
 
 
+    
+
+declare module "secrets_config" { 
+    const genericSecrets:(secretArr: secretConfigObjectsArray) => returnType
+}
+
     type returnType = {
 hospikolMysql: 
  {   port: number,
@@ -43,10 +50,11 @@ hospikolMysql:
     username: string,
     host: string,
     password: string}
+,hospikolMongo: 
+ {   port: number,
+    engine: DatabaseType,
+    dbname: string,
+    username: string,
+    host: string,
+    password: string}
 }
-
-declare module "secrets_config" { 
-    const genericSecrets:(secretArr: secretConfigObjectsArray) => returnType
-}
-
-

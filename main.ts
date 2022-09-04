@@ -4,7 +4,6 @@ import getConnectorSecret from "./getConnectorSecret";
 import getUnknownSecretObj from "./getUnknownSecret";
 import getType from "./scripts/getTypeOfSecretsObject";
 
-import secretConfigTypes from "./types/secretConfigTypesEnum.type"
 import secretConfigObjectsArray from "./types/secretConfigObject";
 import secretsObject from "./types/secretConfigTypesEnum.type"
 
@@ -68,13 +67,13 @@ genericSecrets([
     "port": 3306,
     "engine": "mysql"
   },
-  // {
-  //   "objType": "connector",
-  //   "name": "hospikolMongo",
-  //   "type": "MDB",
-  //   "port": 27017,
-  //   "engine": "mongodb"
-  // },
+  {
+    "objType": "connector",
+    "name": "hospikolMongo",
+    "type": "MDB",
+    "port": 27017,
+    "engine": "mongodb"
+  },
   // {
   //   "objType": "connector",
   //   "name": "hospikolMssqldw",

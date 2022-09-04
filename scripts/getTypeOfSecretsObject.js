@@ -8,64 +8,56 @@ const connector = `
     host: string,
     password: string}
 `;
-// const DatabaseType = `
-//  declare type DatabaseType = "mysql" | "postgres" | "cockroachdb" | "sap" | "mariadb" | "sqlite" | "cordova" | "react-native" | "nativescript" | "sqljs" | "oracle" | "mssql" | "mongodb" | "aurora-data-api" | "aurora-data-api-pg" | "expo" | "better-sqlite3" | "capacitor";
-// `
-// const execObj = `
-
-// type execObj = {
-//     exec: true,
-//     filePath: string,
-//     funcName: string
-// }
-
-// `
-
-// const configObjects = `
-
-// type connectorSecretConfig = {
-//     objType: "connector";
-//     name: string;
-//     type: string;
-//     port?: number | execObj;
-//     engine?: DatabaseType | execObj;
-//     dbname?: string | execObj;
-//     username?: string | execObj;
-//     host?: string | execObj;
-//     password?: string | execObj;
-// }
-
-// type preknownSecretConfig = {
-//     objType: "preknown";
-//     name: string;
-//     value: object;
-//     type: string;
-// }
-
-// type unknownSecretConfig = {
-//     objType: "unknown";
-//     name: string;
-//     envNameArr: string[]
-//     type: string;
-// }
-// `
-
-// const secretConfigObjectsArray = `
-// type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
-// `
-
-
-
-
 
 let modifiedReturnTypeStr = `
+declare type DatabaseType = "mysql" | "postgres" | "cockroachdb" | "sap" | "mariadb" | "sqlite" | "cordova" | "react-native" | "nativescript" | "sqljs" | "oracle" | "mssql" | "mongodb" | "aurora-data-api" | "aurora-data-api-pg" | "expo" | "better-sqlite3" | "capacitor";
+
+type execObj = {
+    exec: true,
+    filePath: string,
+    funcName: string
+}
+
+type connectorSecretConfig = {
+    objType: "connector";
+    name: string;
+    type: string;
+    port?: number | execObj;
+    engine?: DatabaseType | execObj;
+    dbname?: string | execObj;
+    username?: string | execObj;
+    host?: string | execObj;
+    password?: string | execObj;
+}
+
+type preknownSecretConfig = {
+    objType: "preknown";
+    name: string;
+    value: object;
+    type: string;
+}
+
+type unknownSecretConfig = {
+    objType: "unknown";
+    name: string;
+    envNameArr: string[]
+    type: string;
+}
+
+type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
+
+
+    
+
+declare module "secrets_config" { 
+    const genericSecrets:(secretArr: secretConfigObjectsArray) => returnType
+}
+
     type returnType = {
 `
 
-const getTypeT = (secretObject, times) => {
+const getTypeT = (secretObject) => {
     try {
-        if (times) return
-        times++;
         for (let i = 0; i < secretObject.length; i++) {
             switch (secretObject[i].objType) {
                 case "connector":
@@ -92,9 +84,7 @@ const getTypeT = (secretObject, times) => {
                 modifiedReturnTypeStr += ','
         }
         modifiedReturnTypeStr += `}`;
-        const file = fs.readFileSync("/home/dina/devops/projects/secrets_config/secrets_config.d.ts", "utf-8");
-        const modifiedFile = file.replace(/type returnType = any/g, modifiedReturnTypeStr);
-        fs.writeFileSync("/home/dina/devops/projects/secrets_config/secrets_config.d.ts", modifiedFile);
+        fs.writeFileSync("node_modules/secrets_config/secrets_config.d.ts", modifiedReturnTypeStr);
     } catch (error) {
         console.log("boo")
     }
@@ -102,10 +92,8 @@ const getTypeT = (secretObject, times) => {
 
 
 let stringToAppend = ''
-const getType = (secretObject, times) => {
+const getType = (secretObject) => {
     try {
-        if (times) return
-        times++;
         const fout = fs.createWriteStream("node_modules/secrets_config/secrets_config.d.ts", 'utf-8');
 
         stringToAppend += `
