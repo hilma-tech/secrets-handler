@@ -10,7 +10,7 @@ type execObj = {
 type connectorSecretConfig = {
     objType: "connector";
     name: string;
-    type: string;
+    alias: string;
     port?: number | execObj;
     engine?: DatabaseType | execObj;
     dbname?: string | execObj;
@@ -23,38 +23,23 @@ type preknownSecretConfig = {
     objType: "preknown";
     name: string;
     value: object;
-    type: string;
+    alias: string;
 }
 
 type unknownSecretConfig = {
     objType: "unknown";
     name: string;
     envNameArr: string[]
-    type: string;
+    alias: string;
 }
 
 type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
 
 
-    
 
-declare module "secrets_config" { 
-    const genericSecrets:(secretArr: secretConfigObjectsArray) => returnType
+
+declare module "secrets_config" {
+    const genericSecrets: (secretArr: secretConfigObjectsArray) => returnType
 }
 
-    type returnType = {
-hospikolMysql: 
- {   port: number,
-    engine: DatabaseType,
-    dbname: string,
-    username: string,
-    host: string,
-    password: string}
-,hospikolMongo: 
- {   port: number,
-    engine: DatabaseType,
-    dbname: string,
-    username: string,
-    host: string,
-    password: string}
-}
+type returnType = any;

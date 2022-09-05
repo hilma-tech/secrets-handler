@@ -1,5 +1,4 @@
 import { DatabaseType } from "../types/database.type";
-import secretConfigTypes from "../types/secretConfigTypesEnum.type";
 
 
 type execObj = {
@@ -11,7 +10,7 @@ type execObj = {
 type connectorSecretConfig = {
     objType: "connector";
     name: string;
-    type: string;
+    alias: string;
     port?: number | execObj;
     engine?: DatabaseType | execObj;
     dbname?: string | execObj;

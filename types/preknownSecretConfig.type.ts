@@ -1,10 +1,9 @@
-import secretConfigTypes from "./secretConfigTypesEnum.type";
 
 type preknownSecretConfig = {
     objType: "preknown";
     name: string;
     value: object;
-    type: string;
+    alias: string;
 }
 
 export default preknownSecretConfig;

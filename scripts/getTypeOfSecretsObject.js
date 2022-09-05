@@ -1,12 +1,16 @@
+"use strict";
 const fs = require('fs');
-const fsPromises = fs.promises;
+
+
 const connector = `
- {   port: number,
+ { 
+    port: number,
     engine: DatabaseType,
     dbname: string,
     username: string,
     host: string,
-    password: string}
+    password: string
+}
 `;
 
 let modifiedReturnTypeStr = `
@@ -21,7 +25,7 @@ type execObj = {
 type connectorSecretConfig = {
     objType: "connector";
     name: string;
-    type: string;
+    alias: string;
     port?: number | execObj;
     engine?: DatabaseType | execObj;
     dbname?: string | execObj;
@@ -34,14 +38,14 @@ type preknownSecretConfig = {
     objType: "preknown";
     name: string;
     value: object;
-    type: string;
+    alias: string;
 }
 
 type unknownSecretConfig = {
     objType: "unknown";
     name: string;
     envNameArr: string[]
-    type: string;
+    alias: string;
 }
 
 type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
@@ -54,14 +58,15 @@ declare module "secrets_config" {
 }
 
     type returnType = {
-`
+`;
 
-const getTypeT = (secretObject) => {
+
+const getType = async (secretObject) => {
     try {
         for (let i = 0; i < secretObject.length; i++) {
             switch (secretObject[i].objType) {
                 case "connector":
-                    modifiedReturnTypeStr += `${secretObject[i].name}: ${connector}`
+                    modifiedReturnTypeStr += `${secretObject[i].name}: ${connector}`;
                     break;
                 case "unknown":
                     let unknown = `${secretObject[i].name} : {`;
@@ -71,73 +76,26 @@ const getTypeT = (secretObject) => {
                             unknown += "\n,";
                     }
                     unknown += "}";
-                    modifiedReturnTypeStr += unknown
+                    modifiedReturnTypeStr += unknown;
                     break;
                 case "preknown":
-                    modifiedReturnTypeStr += `\n${secretObject[i].name}: any\n`
+                    modifiedReturnTypeStr += `\n${secretObject[i].name}: any\n`;
                     break;
                 default:
                     console.log('no');
                     break;
             }
             if (i != secretObject.length - 1)
-                modifiedReturnTypeStr += ','
+                modifiedReturnTypeStr += ',';
         }
         modifiedReturnTypeStr += `}`;
-        fs.writeFileSync("node_modules/secrets_config/secrets_config.d.ts", modifiedReturnTypeStr);
-    } catch (error) {
-        console.log("boo")
-    }
-}
-
-
-let stringToAppend = ''
-const getType = (secretObject) => {
-    try {
-        const fout = fs.createWriteStream("node_modules/secrets_config/secrets_config.d.ts", 'utf-8');
-
-        stringToAppend += `
-        ${DatabaseType}
-        ${execObj}
-        ${configObjects}
-        ${secretConfigObjectsArray}
-        declare module "secrets_config" { const genericSecrets:(secretArr: secretConfigObjectsArray) => {`
-
-        for (let i = 0; i < secretObject.length; i++) {
-            switch (secretObject[i].objType) {
-                case "connector":
-                    stringToAppend += `${secretObject[i].name}: ${connector}`
-                    break;
-                case "unknown":
-                    let unknown = `${secretObject[i].name} : {`;
-                    for (let j = 0; j < secretObject[i].envNameArr.length; j++) {
-                        unknown += `${secretObject[i].envNameArr[j]}: any`;
-                        if (j != secretObject[i].envNameArr.length - 1)
-                            unknown += ",\n";
-                    }
-                    unknown += "}";
-                    stringToAppend += unknown
-                    break;
-                case "preknown":
-                    stringToAppend += `${secretObject[i].name}: any`
-                    break;
-                default:
-                    console.log('no');
-                    break;
-            }
-            if (i != secretObject.length - 1)
-                stringToAppend += ','
-        }
-        stringToAppend += `}}`;
-
-        fout.write(stringToAppend);
-        fout.close();
-
-
+        await fs.writeFileSync("./secrets_config.d.ts", modifiedReturnTypeStr);
         console.log("done 🛸");
-
-    } catch (error) {
-        console.log('error: ', error);
+    }
+    catch (error) {
+        console.log("boo");
     }
 };
-module.exports = getTypeT;
+
+
+module.exports = getType;

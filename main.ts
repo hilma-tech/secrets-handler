@@ -5,7 +5,6 @@ import getUnknownSecretObj from "./getUnknownSecret";
 import getType from "./scripts/getTypeOfSecretsObject";
 
 import secretConfigObjectsArray from "./types/secretConfigObject";
-import secretsObject from "./types/secretConfigTypesEnum.type"
 
 
 /**
@@ -23,18 +22,17 @@ async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): P
 
   getType(secretsObjects);
 
-  const secretsArr: any | secretsObject = {};
+  const secretsArr: any = {};
 
   // for every secret object in secretsObjects retrives the secret from the wanted source(aws or env file)  and according to the secret type(connector/unknown/preknown)
   for (let i = 0; i < secretsObjects.length; i++) {
-    if (process.env.USE_AWS === 'true' && !!process.env[`${secretsObjects[i].type}_SECRET_NAME`]) {
-      secretsArr[secretsObjects[i].name] = await getAwsSecret(process.env[`${secretsObjects[i].type}_SECRET_NAME`]!)
+    if (process.env.USE_AWS === 'true' && !!process.env[`${secretsObjects[i].alias}_SECRET_NAME`]) {
+      secretsArr[secretsObjects[i].name] = await getAwsSecret(process.env[`${secretsObjects[i].alias}_SECRET_NAME`]!)
     } else {
       let secretConfig = secretsObjects[i];
 
       switch (secretConfig.objType) {
         case "connector":
-          //@ts-ignore
           secretConfig = {
             ...secretConfig,
             ...checkIfFunction((({ port, engine, dbname, username, host, password }) => ({ port, engine, dbname, username, host, password }))(secretConfig))
@@ -58,75 +56,5 @@ async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): P
   return secretsArr;
 }
 
-
-genericSecrets([
-  {
-    "objType": "connector",
-    "name": "hospikolMysql",
-    "type": "DB",
-    "port": 3306,
-    "engine": "mysql"
-  },
-  {
-    "objType": "connector",
-    "name": "hospikolMongo",
-    "type": "MDB",
-    "port": 27017,
-    "engine": "mongodb"
-  },
-  // {
-  //   "objType": "connector",
-  //   "name": "hospikolMssqldw",
-  //   "type": "DWSQL",
-  //   "engine": "mssql"
-  // },
-  // {
-  //   "objType": "connector",
-  //   "name": "hospikolMysqldw",
-  //   "type": "DB",
-  //   "engine": "mysql",
-  //   "port": 3306,
-  //   "dbname": {
-  //     "exec": true,
-  //     "filePath": "/home/dina/devops/projects/hospikol/server/src/functionsForSecrets.js",
-  //     "funcName": "getDBName"
-  //   }
-  // },
-  // {
-  //   "objType": "unknown",
-  //   "name": "sharedSecrets",
-  //   "envNameArr": [
-  //     "ENCRYPTION_KEY",
-  //     "ENCRYPTION_IV",
-  //     "SALT",
-  //     "FIREBASE_API_KEY",
-  //     "FIREBASE_MESSANGING_SENDER_ID",
-  //     "FIREBASE_APP_ID",
-  //     "FIREBASE_VAPID_KEY"
-  //   ],
-  //   "type": "SINGELTON"
-  // },
-  // {
-  //   "objType": "preknown",
-  //   "name": "pass019",
-  //   "value": {
-  //     "pass019": {
-  //       "exec": true,
-  //       "filePath": "./functionsForSecrets.js",
-  //       "funcName": "getPass019"
-  //     }
-  //   },
-  //   "type": "PASS019"
-  // },
-  // {
-  //   "objType": "preknown",
-  //   "name": "hospitalAdmin",
-  //   "value": {
-  //     "username": "",
-  //     "password": ""
-  //   },
-  //   "type": "HOSPITAL_ADMIN"
-  // }
-])
 
 export { genericSecrets };

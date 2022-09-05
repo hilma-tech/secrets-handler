@@ -1,10 +1,9 @@
-import preknownSecretConfig from "./types/preknownSecretConfig.type";
-
 
 /**
  * @param {*} secretObj that needs to load a file
  * @returns secret object with the value loaded from the file
  */
+
 const checkIfFunction = (secretObj: { [key: string]: any }) => {
 
     Object.entries(secretObj).forEach(entry => {
@@ -16,7 +15,7 @@ const checkIfFunction = (secretObj: { [key: string]: any }) => {
                     const file = require(`${entry[1].filePath}`);
                     // excecute the function in the loaded file
                     const res = file[entry[1].funcName]();
-                    // if a value was returend from the function, apply it as a sceret key data
+                    // if a value was returend from the function, apply it as a secret key data
                     if (res)
                         secretObj[entry[0]] = res;
                 } catch (error) {
