@@ -12,7 +12,7 @@ import secretConfigObjectsArray from "./types/secretConfigObject";
  * @returns array containing secrets and their value from the wanted destenation
  */
 
-async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
+async function getSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
 
   // if secretsObjects is not an array, throw error
   if (!Array.isArray(secretsObjects)) {
@@ -57,4 +57,4 @@ async function genericSecrets<Type>(secretsObjects: secretConfigObjectsArray): P
 }
 
 
-export { genericSecrets };
+export { getSecrets };
