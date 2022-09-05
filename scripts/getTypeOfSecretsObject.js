@@ -89,7 +89,7 @@ const getType = async (secretObject) => {
                 modifiedReturnTypeStr += ',';
         }
         modifiedReturnTypeStr += `}`;
-        await fs.writeFileSync("./secrets_config.d.ts", modifiedReturnTypeStr);
+        await fs.writeFileSync("./secrets-handler.d.ts", modifiedReturnTypeStr);
         console.log("done 🛸");
     }
     catch (error) {
