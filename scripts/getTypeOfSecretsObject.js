@@ -93,7 +93,7 @@ const getType = async (secretObject) => {
         console.log("done 🛸");
     }
     catch (error) {
-        console.log("boo");
+        console.error("error in getting the return type of getSecrets:", error);
     }
 };
 
