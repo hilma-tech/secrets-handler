@@ -1,7 +1,7 @@
 {
-  "name": "secrets_config",
-  "version": "1.0.0-beta0.24",
-  "description": "configuration of secrets devops",
+  "name": "@hilma/secrets-handler",
+  "version": "1.0.0",
+  "description": "configuration and handling of secrets",
   "main": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hilma-tech/secrets_config.git"
+    "url": "git+https://github.com/hilma-tech/secrets-handler.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hilma-tech/secrets_config/issues"
+    "url": "https://github.com/hilma-tech/secrets-handler/issues"
   },
-  "homepage": "https://github.com/hilma-tech/secrets_config#readme",
+  "homepage": "https://github.com/hilma-tech/secrets-handler#readme",
   "dependencies": {
     "aws-sdk": "^2.1187.0"
   },
