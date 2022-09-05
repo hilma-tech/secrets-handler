@@ -14,7 +14,7 @@ const getConnectorSecret = async (secretObj: connectorSecretConfig): Promise<con
         password: typeof secretObj.password == "string" ? secretObj.password : process.env[`${secretObj.alias}_PASSWORD`],
         engine: typeof secretObj.engine == "string" ? secretObj.engine : process.env[`${secretObj.alias}_ENGINE`] as DatabaseType,
         host: typeof secretObj.host == "string" ? secretObj.host : process.env[`${secretObj.alias}_HOST`],
-        port: typeof secretObj.port == "string" ? secretObj.port : Number(process.env[`${secretObj.alias}_PORT`]),
+        port: typeof secretObj.port == "number" ? secretObj.port : Number(process.env[`${secretObj.alias}_PORT`]),
         dbname: typeof secretObj.dbname == "string" ? secretObj.dbname : process.env[`${secretObj.alias}_NAME`],
     }
 }

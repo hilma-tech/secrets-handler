@@ -53,8 +53,8 @@ type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfi
 
     
 
-declare module "secrets_config" { 
-    const genericSecrets:(secretArr: secretConfigObjectsArray) => returnType
+declare module "@hilma/secrets-handler" { 
+    const getSecrets:(secretArr: secretConfigObjectsArray) => returnType
 }
 
     type returnType = {
