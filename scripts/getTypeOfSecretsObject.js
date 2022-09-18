@@ -89,7 +89,7 @@ const getType = async (secretObject) => {
                 modifiedReturnTypeStr += ',';
         }
         modifiedReturnTypeStr += `}`;
-        await fs.writeFileSync("./secrets-handler.d.ts", modifiedReturnTypeStr);
+        await fs.writeFileSync("./node_modules/@hilma/secrets-handler/secrets-handler.d.ts", modifiedReturnTypeStr);
         console.log("done 🛸");
     }
     catch (error) {
