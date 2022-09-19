@@ -1,6 +1,6 @@
 {
   "name": "@hilma/secrets-handler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "configuration and handling of secrets",
   "main": "main.ts",
   "scripts": {
