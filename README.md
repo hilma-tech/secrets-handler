@@ -57,4 +57,5 @@ call getSecrets with an array, according to the table below.
 |alias<br />**required**|string|short string that precedes env variables names. <br />ex: DB_NAME and DB_SECRET_NAME - "DB" is the alias |
 |envName<br />*required for objType unknown*|array containing names of the wanted aliases from the env|To get them from the env file|database information|Use in cases when the key is not in the env file or you want to override it.|
 |value<br />*required for objType preknown*|object. key: string, value: any.|for secrets that do not have data in the env file.|
+|port, engine, host, dbname, username, pasword<br />*optional for objType connector*|string / number|hard coded data for your db connection|
 
