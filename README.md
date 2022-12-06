@@ -59,3 +59,30 @@ call getSecrets with an array, according to the table below.
 |value<br />*required for objType preknown*|object. key: string, value: any.|for secrets that do not have data in the env file.|
 |port, engine, host, dbname, username, pasword<br />*optional for objType connector*|string / number|hard coded data for your db connection|
 
+
+
+setEnv.ts:
+```javascript
+import { getSecrets } from "@hilma/secrets-handler"
+
+export let privateSecret: ReturnType<typeof getSecrets>;
+
+export const setEnv = async () => {
+    privateSecret = await getSecrets([
+        {
+            objType: "connector",
+            alias: "DB",
+            engine: "mysql",
+            name: "mysqlSecret"
+        },
+        {
+            objType: "unknown",
+            alias: "SINGELTON",
+            envNameArr: [
+                "SECRET",
+            ],
+            name: "unknownSecrets"
+        }
+    ]);
+}
+```
