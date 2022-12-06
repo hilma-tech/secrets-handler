@@ -1,14 +1,14 @@
 # secrets-handler
-This package handles the projects secrets and gets the secrets from env file or from aws
+This package handles the projects secrets and gets the secrets from either env file or from secrets manager in aws
 
 <!-- ## How to use:
  1. Install the package 
- 2. In setEnv or main.ts import getSecrets function and give it you secret config array. 
- 3. In your tsconfig file, remove "node_modules" from exclude and insert "node_modules/@hilma/secrets-handler" to include.
- 4. Give to your secret object this type: ReturnType\<typeof getSecrets\> -->
+ 2. In setEnv or main.ts import getSecrets function and give it you secret config array. (see example below)
+ 3. (optional) In your tsconfig file, remove "node_modules" from exclude and insert "node_modules/@hilma/secrets-handler" to include in order to have autocomplete working during development.
+ 4. (optional) Give to your secret object this type: ReturnType\<typeof getSecrets\> -->
 
 <!-- 
-**Secert config syntax**: 
+**Secret config syntax**: 
 An array containig objects. 
 Object can be from type connector(db), unknown, preknown.
 
