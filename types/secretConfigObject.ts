@@ -4,4 +4,5 @@ import unknownSecretConfig from "./unknownSecretConfig.type";
 
 export type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
 
+
 export default secretConfigObjectsArray;

@@ -8,7 +8,6 @@ import { DatabaseType } from "./types/database.type";
  */
 
 const getConnectorSecret = async (secretObj: connectorSecretConfig): Promise<connectorSecret> => {
-
     return {
         username: typeof secretObj.username == "string" ? secretObj.username : process.env[`${secretObj.alias}_USER`],
         password: typeof secretObj.password == "string" ? secretObj.password : process.env[`${secretObj.alias}_PASSWORD`],

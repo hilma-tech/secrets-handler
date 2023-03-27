@@ -8,7 +8,6 @@ type execObj = {
 }
 
 type connectorSecretConfig = {
-    objType: "connector";
     name: string;
     alias: string;
     port?: number | execObj;
