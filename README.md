@@ -30,18 +30,24 @@ $ npm i @hilma/secrets-handler
 
 in app module change forRoot => forRootAsync
 example:
+
+     import { privateSecret } from "./setEnv";
+      ....
+     @Module({
+    imports: [
     TypeOrmModule.forRootAsync({
       useFactory: async () => {
         return {
-          username: privateSecret.mysqlSecret.username,
-          host: privateSecret.mysqlSecret.host,
-          password: privateSecret.mysqlSecret.password,
-          type: privateSecret.mysqlSecret.engine,
+          type: "mysql",
+          host: privateSecret.mysqlSecret.dbname,
+          port: Number(privateSecret.mysqlSecret.port),
           database: privateSecret.mysqlSecret.dbname,
-          port: privateSecret.mysqlSecret.port,
-          // logging: true,
+          username: privateSecret.mysqlSecret.username,
+          password: privateSecret.mysqlSecret.password,
           ssl: process.env.DB_SSL === 'true' ? true : false,
+          
           synchronize: process.env.DB_SYNC === 'true' ? true : false,
+          // logging: true,
           extra: {
             charset: "utf8mb4_unicode_ci"
           },
