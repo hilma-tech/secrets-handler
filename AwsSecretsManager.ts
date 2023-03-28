@@ -16,13 +16,12 @@ class AwsSecretsManager {
                 const str = data.SecretString;
                 value = JSON.parse(str);
             } else {
-                buffer = Buffer.from(data.SecretBinary, 'base64')
-                decodedBinarySecret = buffer.toString('ascii')
-                const str = decodedBinarySecret
+                buffer = Buffer.from(data.SecretBinary, 'base64');
+                decodedBinarySecret = buffer.toString('ascii');
+                const str = decodedBinarySecret;
                 value = JSON.parse(str);
             }
         } catch (error) {
-            console.error(error);
             throw error;
         }
 

@@ -1,9 +1,7 @@
 
-type preknownSecretConfig = {
-    objType: "preknown";
+export type preknownSecretConfig = {
     name: string;
     value: object;
     alias: string;
 }
 
-export default preknownSecretConfig;

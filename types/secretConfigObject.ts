@@ -1,7 +1,8 @@
-import connectorSecretConfig from "./connectorSecretConfig.type";
-import preknownSecretConfig from "./preknownSecretConfig.type";
-import unknownSecretConfig from "./unknownSecretConfig.type";
+import { connectorSecretConfig } from "./connectorSecretConfig.type";
+import { preknownSecretConfig } from "./preknownSecretConfig.type";
+import { singletonSecretConfig } from "./singletonSecretConfig.type";
 
-export type secretConfigObjectsArray = Array<connectorSecretConfig | unknownSecretConfig | preknownSecretConfig>
+export type secretConfigObjectsArray = Array<connectorSecretConfig | singletonSecretConfig | preknownSecretConfig>
+
 
 export default secretConfigObjectsArray;

@@ -1,60 +1,88 @@
-import checkIfFunction from "./checkIfFunction";
+import executeFunctionIfExists from "./executeFunctionIfExists";
 import getAwsSecret from "./getAwsSecret";
 import getConnectorSecret from "./getConnectorSecret";
-import getUnknownSecretObj from "./getUnknownSecret";
-import getType from "./scripts/getTypeOfSecretsObject";
-
-import secretConfigObjectsArray from "./types/secretConfigObject";
-
+import getSingletonEnvSecret from "./getSingletonSecret";
+import { connectorSecretConfig } from "./types/connectorSecretConfig.type";
+import { singletonSecretConfig } from "./types/singletonSecretConfig.type";
+import { preknownSecretConfig } from "./types/preknownSecretConfig.type";
+import { readFileSync } from "fs";
+import { DatabaseType } from "./types/database.type";
 
 /**
- * @param {*} secretsObjects an array containing secret objects from type connector/preknown/unknown
+ * @param {*} secretsObjects Object containing 2 arrays for connector and preknown secrets and one object for singleton secret
  * @returns array containing secrets and their value from the wanted destenation
  */
 
-async function getSecrets<Type>(secretsObjects: secretConfigObjectsArray): Promise<Type | undefined> {
 
-  // if secretsObjects is not an array, throw error
-  if (!Array.isArray(secretsObjects)) {
-    console.error(`secretsObjects must be an array. you passed ${typeof secretsObjects}`);
-    return;
+export interface getSecretsParams {
+  connectors?: connectorSecretConfig[],
+  singleton?: singletonSecretConfig,
+  preknowns?: preknownSecretConfig[],
+  pass019?: boolean
+}
+async function getSecrets<Type>({ connectors, preknowns, singleton, pass019 }: getSecretsParams): Promise<Type | undefined> {
+
+  const secretsObj: any = {};
+
+  if (process.env.USE_AWS === "true") {
+    if (connectors) await handleSecretsFromAws(connectors, secretsObj);
+    if (preknowns) await handleSecretsFromAws(preknowns, secretsObj);
+    if (singleton) secretsObj[singleton.name] = await getAwsSecret(process.env[`SINGELTON_SECRET_NAME`]!);
+    if (pass019) secretsObj["pass019"] = await getAwsSecret("pass019");
   }
-
-  getType(secretsObjects);
-
-  const secretsArr: any = {};
-
-  // for every secret object in secretsObjects retrives the secret from the wanted source(aws or env file)  and according to the secret type(connector/unknown/preknown)
-  for (let i = 0; i < secretsObjects.length; i++) {
-    if (process.env.USE_AWS === 'true' && !!process.env[`${secretsObjects[i].alias}_SECRET_NAME`]) {
-      secretsArr[secretsObjects[i].name] = await getAwsSecret(process.env[`${secretsObjects[i].alias}_SECRET_NAME`]!)
-    } else {
-      let secretConfig = secretsObjects[i];
-
-      switch (secretConfig.objType) {
-        case "connector":
-          secretConfig = {
-            ...secretConfig,
-            ...checkIfFunction((({ port, engine, dbname, username, host, password }) => ({ port, engine, dbname, username, host, password }))(secretConfig))
-          }
-          secretsArr[secretConfig.name] = await getConnectorSecret(secretConfig)
-          break;
-        case "preknown":
-          const modifiedValue = checkIfFunction(secretConfig.value);
-          secretsArr[secretConfig.name] = modifiedValue
-          break;
-        case "unknown":
-          secretsArr[secretConfig.name] = await getUnknownSecretObj(secretConfig)
-          break;
-
-        default:
-          break;
-      }
-
-    }
+  else {
+    if (connectors) await handleConnectorSecrets(connectors, secretsObj);
+    if (preknowns) await handlePreknownSecrets(preknowns, secretsObj);
+    if (singleton) secretsObj[singleton.name] = await getSingletonEnvSecret(singleton);
+    if (pass019) secretsObj["pass019"] = await readFileSync(process.env.PASS019!, "utf-8")
   }
-  return secretsArr;
+  return secretsObj;
 }
 
 
-export { getSecrets };
+const handleSecretsFromAws = async (secretsConfArr: connectorSecretConfig[] | preknownSecretConfig[], secretsArr: any) => {
+
+  for (let i = 0; i < secretsConfArr.length; i++) {
+    // if (!!process.env[`${secretsConfArr[i].alias}_SECRET_NAME`])
+    secretsArr[secretsConfArr[i].name] = await getAwsSecret(process.env[`${secretsConfArr[i].alias}_SECRET_NAME`]!)
+  }
+}
+
+
+const handleConnectorSecrets = async (connectors: connectorSecretConfig[], secretsArr: any) => {
+  try {
+    for (let i = 0; i < connectors.length; i++) {
+
+      let secretConfig = connectors[i]
+      secretConfig = {
+        ...secretConfig,
+        ...executeFunctionIfExists(secretConfig)
+      }
+      secretsArr[secretConfig.name] = await getConnectorSecret(secretConfig);
+    }
+  } catch (error) {
+    console.error('error in handleConnectorSecrets: ', error);
+    throw error;
+  }
+}
+
+
+
+const handlePreknownSecrets = (preknowns: preknownSecretConfig[], secretsArr: any) => {
+  for (let i = 0; i < preknowns.length; i++) {
+    const modifiedValue = executeFunctionIfExists(preknowns[i].value);
+    secretsArr[preknowns[i].name] = modifiedValue
+  }
+}
+
+export interface connectorSecret {
+  port?: number;
+  engine?: DatabaseType;
+  dbname?: string;
+  username?: string;
+  host?: string;
+  password?: string
+}
+
+
+export default getSecrets;
