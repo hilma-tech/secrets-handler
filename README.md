@@ -29,6 +29,30 @@ $ npm i @hilma/secrets-handler
 ## Setup
 
 in app module change forRoot => forRootAsync
+example:
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        return {
+          username: privateSecret.mysqlSecret.username,
+          host: privateSecret.mysqlSecret.host,
+          password: privateSecret.mysqlSecret.password,
+          type: privateSecret.mysqlSecret.engine,
+          database: privateSecret.mysqlSecret.dbname,
+          port: privateSecret.mysqlSecret.port,
+          // logging: true,
+          ssl: process.env.DB_SSL === 'true' ? true : false,
+          synchronize: process.env.DB_SYNC === 'true' ? true : false,
+          extra: {
+            charset: "utf8mb4_unicode_ci"
+          },
+          entities: [
+            "dist/**/*{.ts,.js}",
+            "node_modules/@hilma/auth-nest/dist/**/*.entity{.ts,.js}"
+          ]
+        }
+      }
+    }),
+
 
 for connector(db) secrets you should follow this syntax:
 
