@@ -22,7 +22,6 @@ class AwsSecretsManager {
                 value = JSON.parse(str);
             }
         } catch (error) {
-            console.error(error);
             throw error;
         }
 

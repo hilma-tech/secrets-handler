@@ -1,4 +1,4 @@
-import { connectorSecret } from "./types/connectorSecret.type";
+import { connectorSecret } from "./main";
 import { connectorSecretConfig } from "./types/connectorSecretConfig.type";
 import { DatabaseType } from "./types/database.type";
 
