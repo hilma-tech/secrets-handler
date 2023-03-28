@@ -19,13 +19,6 @@ interface getSecretsParams {
 }
 async function getSecrets<Type>({ connectors, preknowns, unknowns }: getSecretsParams): Promise<Type | undefined> {
 
-  // if secretsObjects is not an array, throw error
-  // if (!Array.isArray(connectors) && !Array.isArray(preknowns) && !Array.isArray(unknowns)) {
-  //   console.error(`secretsObjects must be an array`);
-  //   return;
-  // }
-
-
   const secretsArr: any = {};
 
   if (process.env.USE_AWS === "true") {
@@ -34,9 +27,9 @@ async function getSecrets<Type>({ connectors, preknowns, unknowns }: getSecretsP
     handleSecretsFromAws(preknowns, secretsArr);
   }
   else {
-    handleConnectorSecret(connectors, secretsArr);
-    handleUnknownSecret(unknowns, secretsArr);
-    handlePreknownSecret(preknowns, secretsArr)
+    handleConnectorSecrets(connectors, secretsArr);
+    handleUnknownSecrets(unknowns, secretsArr);
+    handlePreknownSecrets(preknowns, secretsArr)
   }
   return secretsArr;
 }
@@ -51,24 +44,25 @@ const handleSecretsFromAws = async (secretsConfArr: connectorSecretConfig[] | un
   }
 }
 
-
-const handleConnectorSecret = async (connectors: connectorSecretConfig[], secretsArr: any) => {
-  // secretConfig = {
-  //   ...secretConfig,
-  //   // ...checkIfFunction((({ port, engine, dbname, username, host, password }) => ({ port, engine, dbname, username, host, password }))(secretConfig))
-  // }
+const handleConnectorSecrets = async (connectors: connectorSecretConfig[], secretsArr: any) => {
   for (let i = 0; i < connectors.length; i++) {
-    secretsArr[connectors[i].name] = await getConnectorSecret(connectors[i]);
+
+    let secretConfig = connectors[i]
+    secretConfig = {
+      ...secretConfig,
+      ...checkIfFunction(secretConfig)
+    }
+    secretsArr[secretConfig.name] = await getConnectorSecret(secretConfig);
   }
 }
 
-const handleUnknownSecret = async (unknowns: unknownSecretConfig[], secretsArr: any) => {
+const handleUnknownSecrets = async (unknowns: unknownSecretConfig[], secretsArr: any) => {
   for (let i = 0; i < unknowns.length; i++) {
     secretsArr[unknowns[i].name] = await getUnknownSecretObj(unknowns[i]);
   }
 }
 
-const handlePreknownSecret = (preknowns: preknownSecretConfig[], secretsArr: any) => {
+const handlePreknownSecrets = (preknowns: preknownSecretConfig[], secretsArr: any) => {
   for (let i = 0; i < preknowns.length; i++) {
     const modifiedValue = checkIfFunction(preknowns[i].value);
     secretsArr[preknowns[i].name] = modifiedValue
