@@ -1,4 +1,4 @@
-import checkIfFunction from "./checkIfFunction";
+import executeFunctionIfExists from "./executeFunctionIfExists";
 import getAwsSecret from "./getAwsSecret";
 import getConnectorSecret from "./getConnectorSecret";
 import getUnknownSecretObj from "./getUnknownSecret";
@@ -50,7 +50,7 @@ const handleConnectorSecrets = async (connectors: connectorSecretConfig[], secre
     let secretConfig = connectors[i]
     secretConfig = {
       ...secretConfig,
-      ...checkIfFunction(secretConfig)
+      ...executeFunctionIfExists(secretConfig)
     }
     secretsArr[secretConfig.name] = await getConnectorSecret(secretConfig);
   }
@@ -64,7 +64,7 @@ const handleUnknownSecrets = async (unknowns: unknownSecretConfig[], secretsArr:
 
 const handlePreknownSecrets = (preknowns: preknownSecretConfig[], secretsArr: any) => {
   for (let i = 0; i < preknowns.length; i++) {
-    const modifiedValue = checkIfFunction(preknowns[i].value);
+    const modifiedValue = executeFunctionIfExists(preknowns[i].value);
     secretsArr[preknowns[i].name] = modifiedValue
   }
 }
