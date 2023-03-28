@@ -1,5 +1,5 @@
-import connectorSecret from "./types/connectorSecret.type";
-import connectorSecretConfig from "./types/connectorSecretConfig.type";
+import { connectorSecret } from "./types/connectorSecret.type";
+import { connectorSecretConfig } from "./types/connectorSecretConfig.type";
 import { DatabaseType } from "./types/database.type";
 
 /**

@@ -1,6 +1,6 @@
 import { DatabaseType } from "./database.type";
 
-interface connectorSecret {
+export interface connectorSecret {
     port?: number;
     engine?: DatabaseType;
     dbname?: string;
@@ -9,4 +9,3 @@ interface connectorSecret {
     password?: string
 }
 
-export default connectorSecret;

@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "configuration and handling of secrets",
   "main": "main.ts",
+  "types": "secrets-handler.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/main.js",
     "prepare": "npm run build",
     "prebuild": "rm -rf /dist",
-    "build": "echo hi"
+    "build": "npx tsc && cp secrets-handler.d.ts dist"
   },
   "repository": {
     "type": "git",

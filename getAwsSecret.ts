@@ -8,6 +8,7 @@ type secretsObject = { [key: string]: any }
  */
 
 const getAwsSecret = async (secretName: string): Promise<secretsObject | undefined> => {
+    console.log('secretName: ', secretName);
     try {
         const secretManager = new AwsSecretsManager({
             region: process.env.AWS_REGION
