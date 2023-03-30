@@ -14,8 +14,8 @@ $ npm i @hilma/secrets-handler
 ## Types of Secrets:
 For all projects we save all secrets in  "AWS secrets manager" service. For each project there can be multiple types of secrets:</br>
   connectors: credentials for all type of databases (mysql, mongodb,...)</br>
-  Singletone: used for secret APIs (ie: Google API)</br>
-  Preknowns: ???? for future use</br>
+  Singleton: used for secrets that are not related to dbs, like secret APIs (ie: Google API)</br>
+  Preknowns: for secrets that are preknown, but should be in the privateSecret object (also supports functions that will get executed during the secrets retrieval)</br>
   pass019 : to get our common secret for all projects on sms 019 service</br>
 
 ### convention to use 
@@ -33,11 +33,13 @@ XXX_SECRET_NAME for name of this secret in aws (ie: project_secret_mysql1) </br>
  XXX value is the ALIAS value that will be decribed later in the document
 #### for all secrets not related to Databases
 
-SINGLETON_SECRET_NAME should be defined in your .env file (ie: Myproject_singleton)
+SINGLETON_SECRET_NAME should be defined in your .env file (ie: Myproject_singleton) in production when using aws secrets manager.</br>
+On projects that do not use aws secrets manager or in development mode, .env file should contain all the secrets that are passed in the envNameArr variable, (.ie GOOGLE_TOKEN='...').
 
 #### for pass019
 
-PASS019= <path of file with pass019 password> should be defined in you.env file
+PASS019= path of file with pass019 password, should be defined in you.env file.</br>
+(Not necessary when using aws secrets manager.)
 
 ### Connectors:
 | key/s | value/ typeof value   | what for    |
@@ -59,9 +61,9 @@ PASS019= <path of file with pass019 password> should be defined in you.env file
 ### Pass019:
 boolean (true, false)</br>
 
-## setEnv:
+## Usage Example:
 
-setEnv.ts:
+### setEnv.ts example:
 ```javascript
 import { connectorSecret, getSecretsParams } from "@hilma/secrets-handler";
 import getSecrets from "@hilma/secrets-handler";
@@ -94,7 +96,35 @@ export const setEnv = async () => {
 };
 ```
 
-## typeORM in app.modules
+### .env.development example: 
+```
+DB_USER='root'
+DB_HOST='localhost'
+DB_NAME='dbname'
+DB_PASSWORD='z10mz10m'
+
+DW_USER='root'
+DW_HOST='localhost'
+DW_NAME='dwname'
+DW_PASSWORD='z10mz10m'
+
+GOOGLE_MAP_KEY='blabla'
+GOOGLE_PHOTOS_KEY='true'
+
+PASS019='./pass019.txt'
+```
+
+
+### .env.production example:
+```
+USE_AWS=true
+AWS_REGION=eu-west-1
+SINGELTON_SECRET_NAME='secret-name-in-aws'
+DB_SECRET_NAME='production_db_mysql'
+DW_SECRET_NAME='production_dw_mysql'
+```
+
+## typeORM in app.module.ts
 
 in app module change forRoot => forRootAsync
 example:
@@ -113,7 +143,7 @@ example:
           username: privateSecret.mysqlSecret.username,
           password: privateSecret.mysqlSecret.password,
           ssl: process.env.DB_SSL === 'true' ? true : false,
-          
+           
           synchronize: process.env.DB_SYNC === 'true' ? true : false,
           // logging: true,
           extra: {
@@ -128,5 +158,3 @@ example:
     }),
 
 ```
-
-
